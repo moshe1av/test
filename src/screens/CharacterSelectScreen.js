@@ -1,6 +1,7 @@
 import { Characters } from "../data/characters.js";
 import { gameState, Screens, Modes } from "../state/GameState.js";
 import { AudioEngine } from "../audio/AudioEngine.js";
+import { renderThumbnail } from "../render/Portrait.js";
 
 export function renderCharacterSelect(root, goTo) {
   root.innerHTML = "";
@@ -32,10 +33,7 @@ export function renderCharacterSelect(root, goTo) {
     const card = document.createElement("button");
     card.className = "character-card";
     card.innerHTML = `
-      <div class="avatar" style="--skin:${character.skinTone};--hair:${character.hairColor}">
-        <div class="avatar-hair avatar-hair-${character.hairType}"></div>
-        <div class="avatar-face"></div>
-      </div>
+      <div class="avatar">${renderThumbnail(character)}</div>
       <div class="character-name">${character.name}</div>
       <div class="character-tag">${character.hairType} hair</div>
     `;

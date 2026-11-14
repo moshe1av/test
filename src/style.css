@@ -91,43 +91,21 @@ button { font-family: inherit; cursor: pointer; }
   background: var(--surface);
   border: none;
   border-radius: 20px;
-  padding: 16px 8px;
+  padding: 14px 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 .avatar {
-  width: 88px;
-  height: 88px;
-  border-radius: 50%;
-  background: var(--skin);
-  position: relative;
-  margin-bottom: 10px;
+  width: 120px;
+  height: 108px;
+  border-radius: 16px;
+  background: #f3e6da;
   overflow: hidden;
+  margin-bottom: 8px;
 }
-.avatar-face::before, .avatar-face::after {
-  content: "";
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  background: #2b2420;
-  border-radius: 50%;
-  top: 44px;
-}
-.avatar-face::before { left: 26px; }
-.avatar-face::after { left: 54px; }
-.avatar-hair {
-  position: absolute;
-  inset: 0;
-  background: var(--hair);
-}
-.avatar-hair-straight { clip-path: ellipse(48% 38% at 50% 10%); }
-.avatar-hair-wavy { clip-path: ellipse(50% 46% at 50% 14%); }
-.avatar-hair-curly { clip-path: ellipse(52% 48% at 50% 16%); }
-.avatar-hair-thin { clip-path: ellipse(40% 22% at 50% 4%); }
-.avatar-hair-afro { clip-path: circle(46% at 50% 28%); }
-.avatar-hair-spiky { clip-path: polygon(10% 30%, 25% 0%, 35% 25%, 50% -5%, 65% 25%, 75% 0%, 90% 30%, 90% 45%, 10% 45%); }
+.avatar svg { width: 100%; height: 100%; display: block; }
 .character-name { font-weight: 700; }
 .character-tag { font-size: 12px; color: #887a70; text-transform: capitalize; }
 
@@ -168,9 +146,6 @@ button { font-family: inherit; cursor: pointer; }
 .rotation-label { color: #fff; font-size: 12px; min-width: 44px; }
 .rotation-slider { flex: 1; height: 36px; }
 
-.canvas-host { position: absolute; inset: 0; }
-.canvas-host canvas { display: block; width: 100%; height: 100%; touch-action: none; }
-
 .action-bar {
   position: absolute;
   top: 60px;
@@ -178,6 +153,70 @@ button { font-family: inherit; cursor: pointer; }
   z-index: 5;
   display: flex;
   gap: 8px;
+}
+
+/* Portrait stage (2D layered character) */
+.portrait-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  touch-action: none;
+}
+.shop-backdrop {
+  position: absolute;
+  inset: 0;
+  background: #cfc3b4;
+}
+.shop-backdrop::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  background: #b9ac99;
+}
+.shop-backdrop::after {
+  content: "";
+  position: absolute;
+  left: 32%;
+  right: 32%;
+  top: 6%;
+  height: 16%;
+  background: #bfd6dd;
+  border-radius: 10px;
+  box-shadow: 0 0 0 7px #6b5a4a;
+}
+.shop-backdrop.light { background: #fff3e6; }
+.shop-backdrop.light::before { background: #ffe6cf; }
+.shop-backdrop.light::after { display: none; }
+
+.portrait-mount {
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--stage-scale, 1));
+  transform-origin: center 62%;
+}
+.portrait-layer { position: absolute; inset: 0; }
+.portrait-layer svg { width: 100%; height: 100%; display: block; }
+
+.floor-pile {
+  position: absolute;
+  left: 50%;
+  bottom: 9%;
+  width: 0;
+  height: 0;
+  border-radius: 50% 50% 40% 40%;
+  opacity: 0;
+  transform: translateX(-50%);
+  transition: width 160ms, height 160ms, opacity 160ms;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.hair-clump {
+  position: absolute;
+  width: 14px;
+  height: 5px;
+  border-radius: 3px;
 }
 
 .subpanel {
@@ -194,15 +233,18 @@ button { font-family: inherit; cursor: pointer; }
 }
 .guard-btn, .swatch-btn {
   flex: 0 0 auto;
-  min-width: 48px;
+  min-width: 64px;
   height: 48px;
   border-radius: 12px;
   border: none;
   font-weight: 700;
+  font-size: 12px;
+  white-space: nowrap;
+  padding: 0 10px;
   background: #fff;
 }
 .guard-btn.active { background: var(--accent); color: #fff; }
-.swatch-btn { width: 44px; border-radius: 50%; border: 3px solid transparent; }
+.swatch-btn { width: 44px; min-width: 44px; border-radius: 50%; border: 3px solid transparent; padding: 0; }
 .swatch-btn.active { border-color: #fff; }
 
 .dock-host {
@@ -241,7 +283,6 @@ button { font-family: inherit; cursor: pointer; }
 /* Showcase */
 .showcase-screen { background: #fff3e6; }
 .showcase-canvas-host { position: absolute; inset: 0 0 190px 0; }
-.showcase-canvas-host canvas { width: 100%; height: 100%; display: block; }
 .showcase-panel {
   position: absolute;
   bottom: 0;

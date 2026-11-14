@@ -6,7 +6,7 @@ export const ToolCategories = {
 };
 
 export const Tools = [
-  { id: "clippers", name: "Clippers", category: ToolCategories.CUT, color: "#8fa6c9", guards: [0.04, 0.12, 0.2, 0.3, 0.42] },
+  { id: "clippers", name: "Clippers", category: ToolCategories.CUT, color: "#8fa6c9", guards: [0, 1, 2, 3] },
   { id: "scissors", name: "Scissors", category: ToolCategories.CUT, color: "#c9d6e4" },
   { id: "thinning", name: "Thinning", category: ToolCategories.CUT, color: "#aebdce" },
   { id: "razor", name: "Razor", category: ToolCategories.CUT, color: "#d8c27a" },
