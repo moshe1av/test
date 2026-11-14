@@ -1,23 +1,22 @@
-import * as THREE from "three";
+import "./style.css";
+import { gameState, Screens } from "./state/GameState.js";
+import { renderSplash } from "./screens/SplashScreen.js";
+import { renderCharacterSelect } from "./screens/CharacterSelectScreen.js";
+import { renderGameplay } from "./screens/GameplayScreen.js";
+import { renderShowcase } from "./screens/ShowcaseScreen.js";
 
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.z = 3;
+const root = document.getElementById("app");
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.getElementById("app").appendChild(renderer.domElement);
+const renderers = {
+  [Screens.SPLASH]: renderSplash,
+  [Screens.CHARACTER_SELECT]: renderCharacterSelect,
+  [Screens.GAMEPLAY]: renderGameplay,
+  [Screens.SHOWCASE]: renderShowcase,
+};
 
-const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshNormalMaterial(),
-);
-scene.add(cube);
-
-function animate() {
-  requestAnimationFrame(animate);
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
-  renderer.render(scene, camera);
+function goTo(screen) {
+  gameState.screen = screen;
+  renderers[screen](root, goTo);
 }
-animate();
+
+goTo(Screens.SPLASH);
